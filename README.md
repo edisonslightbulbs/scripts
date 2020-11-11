@@ -1,2 +1,2 @@
-# bin
-helper scripts to help speed things up a little
+## Helper scripts to help speed things up a little.
+
