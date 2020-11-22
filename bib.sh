@@ -33,7 +33,7 @@ copyUpdate() {
     for ((maxwalk = topmost; maxwalk > 0; --maxwalk)); do
         if [ -d "$targetDir" ]; then
             FOUND='yes'
-            echo "Found $targetDir"
+            echo "Found latex project $targetDir directory"
             echo "Copy-updating $bibFile => ./resources"
             cd ./resources || return
             cp "$bibFile" ./
