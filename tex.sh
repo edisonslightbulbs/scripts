@@ -4,7 +4,7 @@
 #   A script for compiling latex documents.
 #
 #   This script, when bound to a global alias
-#   enables the used to compile a latex project
+#   makes it easy to compile a latex project
 #   from any child directory of the project.
 #
 # Author  : Everett
