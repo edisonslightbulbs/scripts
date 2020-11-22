@@ -92,7 +92,7 @@ findFile() {
         done
         cd "../"
     done
-    if [ "$FOUND" ]; then echo "$main not found" ;fi
+    if [ "$FOUND" = '' ]; then echo "$main not found" ;fi
 }
 
 
