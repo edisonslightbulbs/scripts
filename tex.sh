@@ -11,14 +11,12 @@
 # Created : 2020-10-19 06:59
 # Github  : https://github.com/antiqueeverett/
 
-
 # clean
 #   Cleans residual log files.
 clean() {
     # use " ./ " so names with dashes won't become options
     rm -rf ./*.aux ./*.log ./*.bbl ./*.out ./*.toc ./*.gz ./*.lof ./*.lot ./*.cut ./*.blg
 }
-
 
 # compile
 #   Compiles latex project.
@@ -32,26 +30,32 @@ compile() {
     pdf=${1/tex/pdf} # output '*.pdf' file
     aux=${1/tex/aux} # output '*.aux' file
 
-    pdflatex -draftmode -halt-on-error -file-line-error -interaction=batchmode "$1"
+    printf "\n(1/4): -draftmode -halt-on-error -file-line-error\n"
+    pdflatex -draftmode -halt-on-error -file-line-error "$1" | grep 'warning\|error\|critical\|Warning\|Error\|Critical'
 
-    if [ -f "$aux" ]; then bibtex "$aux"; fi
 
-    pdflatex -draftmode -halt-on-error -file-line-error -interaction=batchmode "$1"
-    pdflatex -interaction=batchmode "$1"
+    printf "\n(2/4): bibtex\n"
+    if [ -f "$aux" ]; then bibtex "$aux"; fi | grep 'warning\|error\|critical\|Warning\|Error\|Critical'
+
+    printf "\n(3/4): -draftmode -halt-on-error -file-line-error"
+    pdflatex -draftmode -halt-on-error -file-line-error "$1" >/dev/null 2>&1
+
+    printf "\n(4/4): -interaction=nonstopmode\n"
+    pdflatex -interaction=nonstopmode "$1" >/dev/null 2>&1
+
     clean
 }
-
 
 # show
 #   Opens '*.pdf' file.
 show() {
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         gio open main.pdf
-    else [[ "$OSTYPE" == "darwin" ]];
+    else
+        [[ "$OSTYPE" == "darwin" ]]
         open main.pdf
     fi
 }
-
 
 # findFile:
 #   Finds main latex file.
@@ -87,19 +91,18 @@ findFile() {
                     if [ -f "$pdf" ]; then show; fi
 
                     return # break loop if we find what we are looking for
-            fi
+                fi
             fi
         done
         cd "../"
     done
-    if [ "$FOUND" = '' ]; then echo "$main not found" ;fi
+    if [ "$FOUND" = '' ]; then echo "$main not found"; fi
 }
-
 
 # setMainFile
 #   Sets main '*.tex' project file to be searched for.
 setMainFile() {
-    echo "Searching for $main";
+    echo "Searching for $main"
     main="$1"
     findFile "$main"
 }
@@ -121,7 +124,7 @@ isTexFile() {
 #   Safeguards arguments (naively) and
 #     prints help execution directives.
 checkargs() {
-    if (( $# > 2 )); then
+    if (($# > 2)); then
         echo "Invalid argument"
         echo "example:"
         echo "       >_ tex.sh main.tex"
@@ -130,7 +133,7 @@ checkargs() {
         if isTexFile "$1"; then
             setMainFile "$1"
         elif isTexFile "$2"; then
-            setMainFile "$2";
+            setMainFile "$2"
         fi
     fi
 }
