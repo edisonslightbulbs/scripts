@@ -15,7 +15,7 @@
 #   Cleans residual log files.
 clean() {
     # use " ./ " so names with dashes won't become options
-    rm -rf ./*.aux ./*.log ./*.bbl ./*.out ./*.toc ./*.gz ./*.lof ./*.lot ./*.cut ./*.blg
+    rm -rf ./*.aux ./*.log ./*.bbl ./*.out ./*.toc ./*.gz ./*.lof ./*.lot ./*.cut ./*.blg ./*.nav ./*.snm
 }
 
 # compile
