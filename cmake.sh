@@ -18,7 +18,7 @@ build (){
     make
 
     cd "$PROJECT_DIR/build/bin" || return
-    ./main --logtostderr=1
+    #./main --logtostderr=1
 }
 
 # findfile:
