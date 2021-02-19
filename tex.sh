@@ -15,7 +15,7 @@
 #   Cleans residual log files.
 clean() {
     # use " ./ " so names with dashes won't become options
-    rm -rf ./*.aux ./*.log ./*.bbl ./*.out ./*.toc ./*.gz ./*.lof ./*.lot ./*.cut ./*.blg ./*.nav ./*.snm
+    rm -rf ./*.aux ./*.log ./*.bbl ./*.out ./*.toc ./*.gz ./*.lof ./*.lot ./*.cut ./*.blg ./*.nav ./*.snm ./*.bcf ./*.xml ./*.upa ./*.upb
 }
 
 # compile
@@ -57,12 +57,12 @@ show() {
     fi
 }
 
-# findFile:
+# findMain:
 #   Finds main latex file.
 #
 # ARGUMENTS:
 #   $1 name of main latex file
-findFile() {
+findMain() {
     topmost=10
     FOUND=
 
@@ -104,7 +104,7 @@ findFile() {
 setMainFile() {
     echo "Searching for $main"
     main="$1"
-    findFile "$main"
+    findMain "$main"
 }
 
 # isTextFile
@@ -143,7 +143,7 @@ checkargs() {
 main="main.tex"
 if [ $# -eq 0 ]; then
     echo "Searching for $main" # Iff no args are specified
-    findFile "$main"           #   find 'main.tex'
+    findMain "$main"           #   find 'main.tex'
 else
     checkargs "$@"
 fi
