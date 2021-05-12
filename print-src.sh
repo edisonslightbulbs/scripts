@@ -7,4 +7,5 @@
 # created: 2021-04-09 20:27
 # Github: https://github.com/antiqueeverett/
 
-find . -name "*.cpp" | xargs enscript --color=1 -C -Ecpp -fCourier7 -o - | ps2pdf - src.pdf
+find . -name "*.cpp" | xargs enscript --color=1 -C -Ecpp -fCourier7 -o - | ps2pdf - cpp.pdf
+find . -name "*.h" | xargs enscript --color=1 -C -Ecpp -fCourier7 -o - | ps2pdf - h.pdf
