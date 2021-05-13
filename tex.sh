@@ -11,6 +11,12 @@
 # Created : 2020-10-19 06:59
 # Github  : https://github.com/antiqueeverett/
 
+
+# print with less no line breaks
+export max_print_line=1000
+export error_line=254
+export half_error_line=238
+
 # clean
 #   Cleans residual log files.
 clean() {
@@ -31,20 +37,20 @@ compile() {
     aux=${1/tex/aux} # output '*.aux' file
 
     printf "\n(1/4): -draftmode -halt-on-error -file-line-error\n"
-    pdflatex -draftmode -halt-on-error -file-line-error "$1" | grep 'warning\|error\|critical\|Warning\|Error\|Critical'
+    pdflatex -draftmode -halt-on-error -file-line-error "$1" | grep '|error\|critical\|Error\|Critical'
 
 
     printf "\n(2/4): bibtex\n"
     if [ -f "$aux" ]; then bibtex "$aux"; fi | grep 'warning\|error\|critical\|Warning\|Error\|Critical'
 
-    printf "\n(3/4): -draftmode -halt-on-error -file-line-error"
-    pdflatex -draftmode -halt-on-error -file-line-error "$1" >/dev/null 2>&1
+        printf "\n(3/4): -draftmode -halt-on-error -file-line-error"
+        pdflatex -draftmode -halt-on-error -file-line-error "$1" >/dev/null 2>&1
 
-    printf "\n(4/4): -interaction=nonstopmode\n"
-    pdflatex -interaction=nonstopmode "$1" >/dev/null 2>&1
+        printf "\n(4/4): -interaction=nonstopmode\n"
+        pdflatex -interaction=nonstopmode "$1" >/dev/null 2>&1
 
-    clean
-}
+        clean
+    }
 
 # show
 #   Opens '*.pdf' file.
@@ -143,7 +149,7 @@ checkargs() {
 main="main.tex"
 if [ $# -eq 0 ]; then
     echo "Searching for $main" # Iff no args are specified
-    findMain "$main"           #   find 'main.tex'
+    findMain "$main"           # ... find 'main.tex'
 else
     checkargs "$@"
 fi
