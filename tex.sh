@@ -21,7 +21,7 @@ export half_error_line=238
 #   Cleans residual log files.
 clean() {
     # use " ./ " so names with dashes won't become options
-    rm -rf ./*.aux ./*.log ./*.bbl ./*.out ./*.toc ./*.gz ./*.lof ./*.lot ./*.cut ./*.blg ./*.nav ./*.snm ./*.bcf ./*.xml ./*.upa ./*.upb
+    rm -rf ./*.aux ./*.log ./*.bbl ./*.out ./*.toc ./*.gz ./*.lof ./*.lot ./*.cut ./*.blg ./*.nav ./*.snm ./*.bcf ./*.xml ./*.upa ./*.upb ./*.equ
 }
 
 # compile
@@ -37,17 +37,19 @@ compile() {
     aux=${1/tex/aux} # output '*.aux' file
 
     printf "\n(1/4): -draftmode -halt-on-error -file-line-error\n"
-    pdflatex -draftmode -halt-on-error -file-line-error "$1" | grep '|error\|critical\|Error\|Critical'
+    #pdflatex -draftmode -halt-on-error -file-line-error "$1" | grep 'error\|critical\|Error\|Critical'
+        pdflatex -interaction=nonstopmode "$1" | grep 'error\|critical\|Error\|Critical'
 
 
     printf "\n(2/4): bibtex\n"
     if [ -f "$aux" ]; then bibtex "$aux"; fi | grep 'warning\|error\|critical\|Warning\|Error\|Critical'
 
         printf "\n(3/4): -draftmode -halt-on-error -file-line-error"
-        pdflatex -draftmode -halt-on-error -file-line-error "$1" >/dev/null 2>&1
+        #pdflatex -draftmode -halt-on-error -file-line-error "$1" >/dev/null 2>&1
+        pdflatex -interaction=nonstopmode "$1" | grep 'error\|critical\|Error\|Critical'
 
         printf "\n(4/4): -interaction=nonstopmode\n"
-        pdflatex -interaction=nonstopmode "$1" >/dev/null 2>&1
+        pdflatex -interaction=nonstopmode "$1" | grep 'error\|critical\|Error\|Critical'
 
         clean
     }
